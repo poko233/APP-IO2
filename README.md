@@ -115,3 +115,4 @@ La configuración de Tailwind ya está incluida en `tailwind.config.js` y los es
 Desarrollado por LosYucas.
 Hector Gonzales Castro
 Erick Arnez Torrico
+juan david
