@@ -1,46 +1,54 @@
-import { View, Text , ScrollView} from 'react-native';
-import ProductCard from '../../components/ProductCard';
-import '../../global.css';
-const productos = [
-    {
-      id: 3,
-      name: 'Presentacion 1',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 199.99,
-      image: 'https://www.conasi.eu/blog/wp-content/uploads/2022/07/l%C3%A1minas-de-fruta-deshidratada-d.jpg'
-    },
-    {
-      id: 4,
-      name: 'Presentacion 2',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 1299.99,
-      image: 'https://www.conasi.eu/blog/wp-content/uploads/2022/07/l%C3%A1minas-de-fruta-deshidratada-1.jpg'
-    },
-    {
-      id: 5,
-      name: 'Presentacion 3',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 249.99,
-      image: 'https://mercaditodigital.com.bo/wp-content/uploads/2023/09/laminas.jpg'
-    },
-    {
-      id: 6,
-      name: 'Presentacion 4',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      price: 1799.99,
-      image: 'https://i.ytimg.com/vi/fzMKpdxMpBg/sddefault.jpg'
-    }
-]
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import ProductCard from "../../components/ProductCard";
+import { getProducts } from "../../repositories/usuariosRepo"; // ajusta la ruta
+import "../../global.css";
+
 export default function HomeScreen() {
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProductos(data);
+      } catch (e) {
+        console.error(e);
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-gray-50">
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex-1 justify-center items-center bg-gray-50 p-4">
+        <Text className="text-red-500">{error}</Text>
+      </View>
+    );
+  }
   return (
-    
-      <ScrollView className="bg-gray-50 p-4">
-        <Text className="text-2xl font-bold text-gray-800 mb-6 text-center">Nuestros Productos</Text>
-        
-        <ProductCard products={productos} />
-        
-        <View className="h-20"></View>
-      </ScrollView>
-    
+    <ScrollView className="bg-gray-50 p-4">
+      <Text className="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Nuestros Productos
+      </Text>
+
+      <ProductCard products={productos} />
+
+      <View className="h-20" />
+    </ScrollView>
   );
 }
