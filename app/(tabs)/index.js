@@ -35,12 +35,11 @@ export default function HomeScreen() {
   return (
     
       <ScrollView className="bg-gray-50 p-4">
-        <Text className="text-2xl font-bold text-gray-800 mb-6">Nuestros Productos</Text>
+        <Text className="text-2xl font-bold text-gray-800 mb-6 text-center">Nuestros Productos</Text>
         
-        {/* Pasamos el array de productos al componente ProductCard */}
         <ProductCard products={productos} />
         
-        <View className="h-20"></View> {/* Espacio adicional al final */}
+        <View className="h-20"></View>
       </ScrollView>
     
   );
