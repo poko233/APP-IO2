@@ -26,7 +26,7 @@ const ProductCard = ({ products }) => {
                 </Text>
                 <View className="mt-3 flex-row items-center justify-between">
                   <Text className="text-lg font-bold text-black">
-                    ${product.price}
+                    Bs. {product.price}
                   </Text>
                 </View>
               </View>

@@ -29,6 +29,7 @@ export default function Layout() {
           shadowOpacity: 0,
           elevation: 0,
         },
+         headerShadowVisible: false,
         headerTitle: "",
         headerLeft: () => (
           <Pressable
@@ -62,6 +63,10 @@ export default function Layout() {
         options={{
           headerShown: true,
         }}
+      />
+      <Stack.Screen
+        name="product/[id]"
+        options={{ headerShown: true, headerTitle: "" }}
       />
     </Stack>
   );

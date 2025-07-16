@@ -20,7 +20,7 @@ export default function SocialLink({ title, iconSource, imageSource, url }) {
       {imageSource && (
         <Image
           source={imageSource}
-          className="w-10 h-10 mr-4 rounded-full"
+          className="w-8 h-8 mr-4 rounded-full"
           resizeMode="contain"
         />
       )}

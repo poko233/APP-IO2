@@ -7,11 +7,11 @@ import { Easing } from 'react-native-reanimated';
 const { width } = Dimensions.get("window");
 
 // Tamaños y espacios
-const ITEM_WIDTH         = width - (16 * 2) - 16;  // ancho total menos padding y margen extra
-const ITEM_SPACING       = 24;                     // hueco entre slides
-const PARENT_H_PAD       = 16 * 2;                 // p-4 en el ScrollView padre → 16px cada lado
+const ITEM_WIDTH         = width * 0.9;   // ocupa 80% del ancho
+const ITEM_SPACING       = 24;           // hueco entre slides
+const PARENT_H_PAD       = 16 * 2;       // p-4 en el ScrollView padre → 16px cada lado
 // Calculamos el espacio lateral para centrar perfectamente
-const SIDE_SPACING       = 8;                      // espacio lateral mínimo
+const SIDE_SPACING       = (width - PARENT_H_PAD - ITEM_WIDTH) / 2;
 
 export default function SocialCarousel({ data = [] }) {
   const flatListRef = useRef(null);
@@ -62,7 +62,7 @@ export default function SocialCarousel({ data = [] }) {
   );
 
   return (
-    <View style={{ paddingVertical: 16, paddingHorizontal: 8 }}>
+    <View style={{ paddingVertical: 16 }}>
       <FlatList
         ref={flatListRef}
         data={data}
@@ -71,7 +71,7 @@ export default function SocialCarousel({ data = [] }) {
         showsHorizontalScrollIndicator={false}
         decelerationRate="fast"
         snapToInterval={ITEM_WIDTH + ITEM_SPACING}
-        snapToAlignment="start"
+        snapToAlignment="center"
         onMomentumScrollEnd={(e) => {
           const offsetX = e.nativeEvent.contentOffset.x;
           const idx = Math.round(offsetX / (ITEM_WIDTH + ITEM_SPACING));
@@ -85,5 +85,6 @@ export default function SocialCarousel({ data = [] }) {
         renderItem={renderItem}
       />
     </View>
+
   );
 }
