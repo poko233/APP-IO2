@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { loginUser, getUserData } from "../../repositories/usuariosRepo";
+import { loginUser, getUserData } from "../repositories/usuariosRepo";
 import { useNavigation } from "@react-navigation/native";
-import { auth, db } from "../../config/firebaseConfig";
+import { auth, db } from "../config/firebaseConfig";
+import { useRouter } from "expo-router";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  const router = useRouter();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -69,8 +71,13 @@ export default function LoginScreen() {
         <Text style={styles.buttonText}>Ingresar</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("RegisterScreen")}>
-        <Text style={styles.linkText}>¿No tienes cuenta? Registrate</Text>
+      <TouchableOpacity
+        onPress={() => {
+          console.log("Navegando al registro...");
+          router.push("/register"); 
+        }}
+      >
+        <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
       </TouchableOpacity>
     </View>
   );
