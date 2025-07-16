@@ -1,7 +1,8 @@
 import { Link } from "expo-router";
 import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
-
+import { useCart } from "../components/CartContext";
 const ProductCard = ({ products }) => {
+  const { addToCart } = useCart();
   return (
     <View className="flex flex-row flex-wrap justify-center">
       {products.map((product) => (
@@ -35,9 +36,7 @@ const ProductCard = ({ products }) => {
           <View className="w-full max-w-xs px-4 -mt-2 mb-4">
             <TouchableOpacity
               className="px-4 py-2 bg-black rounded-md"
-              onPress={() =>
-                <Text>console.log(`Añadiendo ${product.name} al carrito`)</Text>
-              }
+              onPress={() => addToCart(product)}
             >
               <Text className="text-white font-medium">Añadir al carrito</Text>
             </TouchableOpacity>

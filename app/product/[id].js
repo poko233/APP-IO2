@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from "expo-router";
-import { getProductById } from "../../repositories/usuariosRepo"; // ajusta la ruta
+import { getProductById } from "../../repositories/usuariosRepo";
 import "../../global.css";
 
 export default function ProductDetailScreen() {
-  const { id } = useLocalSearchParams(); // Obtener el ID de la URL
+  const { id } = useLocalSearchParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

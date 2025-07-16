@@ -1,22 +1,17 @@
 import { useFonts } from "expo-font";
 import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { CartProvider, useCart } from "../components/CartContext";
 
 import { Stack, useRouter, useSegments } from "expo-router";
-import { Pressable } from "react-native";
+import { Pressable, View, Text } from "react-native";
 import { Logo } from "../components/Logo";
 import { CartIcon } from "../components/Icons";
 
-export default function Layout() {
+function LayoutContent() {
+  const { totalCount } = useCart(); 
   const router = useRouter();
   const segments = useSegments();
   const current = segments[segments.length - 1];
-  const [fontsLoaded] = useFonts({
-    ...FontAwesome.font,
-    ...FontAwesome6.font,
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <Stack
@@ -28,9 +23,18 @@ export default function Layout() {
           borderBottomWidth: 0,
           shadowOpacity: 0,
           elevation: 0,
+          height: 90,
         },
-         headerShadowVisible: false,
+        headerShadowVisible: false,
         headerTitle: "",
+        headerRightContainerStyle: {
+          paddingRight: 10,
+          paddingTop: 5,
+        },
+        headerLeftContainerStyle: {
+          paddingLeft: 10,
+        },
+
         headerLeft: () => (
           <Pressable
             className="ml-4"
@@ -46,14 +50,27 @@ export default function Layout() {
 
         headerRight: () => (
           <Pressable
-            className="mr-4 z-10"
+            className="z-10"
             onPress={() => {
               if (current !== "cart") {
                 router.push("/cart");
               }
             }}
+            style={{ padding: 8 }}
           >
-            <CartIcon />
+            <View className="relative">
+              <CartIcon />
+              {totalCount > 0 && (
+                <View
+                  className="absolute bg-red-500 rounded-full w-5 h-5 items-center justify-center"
+                  style={{ top: -8, right: -8 }}
+                >
+                  <Text className="text-white text-xs font-bold">
+                    {totalCount > 99 ? "99+" : totalCount}
+                  </Text>
+                </View>
+              )}
+            </View>
           </Pressable>
         ),
       }}
@@ -69,5 +86,21 @@ export default function Layout() {
         options={{ headerShown: true, headerTitle: "" }}
       />
     </Stack>
+  );
+}
+export default function Layout() {
+  const [fontsLoaded] = useFonts({
+    ...FontAwesome.font,
+    ...FontAwesome6.font,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <CartProvider>
+      <LayoutContent />
+    </CartProvider>
   );
 }
