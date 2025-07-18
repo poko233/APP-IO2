@@ -320,7 +320,7 @@ ${orderData.items
       }`
     );
 
-    return `https://wa.me/59169547751?text=${message}`;
+    return `https://wa.me/59160381149?text=${message}`;
   };
 
   return (
