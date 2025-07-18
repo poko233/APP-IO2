@@ -181,7 +181,10 @@ export default function CartScreen() {
       };
 
       // Guardar en Firestore
-      const savedOrder = await createOrder(orderData);
+      const savedOrder = await createOrder({
+        ...orderData,
+        transactionId: paymentMethod === "qr" ? transactionId : null,
+      });
 
       return savedOrder;
     } catch (error) {
@@ -229,8 +232,8 @@ export default function CartScreen() {
         // si no hay sesión activa, redirige al login
         router.replace("/login");
         return;
-      }else if (!userData) {
-        await fetchUserData(); 
+      } else if (!userData) {
+        await fetchUserData();
       }
       // Guardar el pedido en la base de datos
       const savedOrder = await saveOrderToDatabase();
@@ -266,6 +269,7 @@ export default function CartScreen() {
   const handleOrderSuccess = () => {
     setShowOrderSuccessConfirm(false);
     setOrderData(null);
+    setTransactionId("");
     clearCart();
   };
 
@@ -277,7 +281,6 @@ export default function CartScreen() {
     }).start(() => {
       setShowQRModal(false);
       setShowTransactionModal(false);
-      setTransactionId("");
     });
   };
 
@@ -285,16 +288,16 @@ export default function CartScreen() {
   if (items.length === 0) {
     return <EmptyCart />;
   }
-  const getWhatsappUrl = () => {
+  const getWhatsappUrl = (transactionId) => {
     if (!orderData) return "";
 
-    // Asumiendo que tienes acceso a estos datos (si no los tienes, puedes omitirlos o reemplazarlos)
     const cliente = {
-      nombre: userData?.nombre, // Reemplaza con orderData.userName o similar si disponible
-      celular: userData?.telefono, // Reemplaza con orderData.userPhone si disponible
-      direccion: userData?.direccion, // Reemplaza con orderData.shippingAddress si disponible
+      nombre: userData?.nombre,
+      celular: userData?.telefono,
+      direccion: userData?.direccion,
     };
-
+    // Verifica si hay transactionId en orderData o en el parámetro
+    const finalTransactionId = orderData?.transactionId || transactionId;
     const message = encodeURIComponent(
       `*📦 Pedido #${orderData.orderNumber}*
 👤 *Cliente:* ${cliente.nombre}
@@ -309,7 +312,12 @@ ${orderData.items
   )
   .join("\n")}
 
-💰 Total a pagar: Bs. ${orderData.totalAmount.toFixed(2)}`
+💰 Total a pagar: Bs. ${orderData.totalAmount.toFixed(2)}
+💳 *Método de pago:* ${orderData.paymentMethod === "qr" ? "QR Bancario" : "Contra entrega"}${
+        orderData.paymentMethod === "qr" && finalTransactionId
+          ? `\n🔢 *ID de Transacción:* ${finalTransactionId}`
+          : ""
+      }`
     );
 
     return `https://wa.me/59169547751?text=${message}`;
@@ -436,7 +444,7 @@ ${orderData.items
         confirmText="Continuar"
         type="success"
         showCancelButton={false}
-        confirmAction={getWhatsappUrl()}
+        confirmAction={getWhatsappUrl(transactionId)}
       />
 
       {/* Diálogo de error */}

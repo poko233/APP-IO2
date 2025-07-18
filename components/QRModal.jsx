@@ -1,6 +1,6 @@
 // components/QRModal.js
 import React from "react";
-import { View, Text, TouchableOpacity, Modal, Animated } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Animated,Image  } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function QRModal({ 
@@ -36,8 +36,12 @@ export default function QRModal({
             Escanea este código QR con tu app bancaria
           </Text>
           
-          <View className="bg-gray-100 p-8 rounded-2xl mb-6">
-            <Ionicons name="qr-code" size={120} color="#6366f1" />
+          <View className="bg-white p-1 rounded-2xl mb-6 border border-gray-200">
+            <Image
+              source={require('../assets/qr.png')} // Ruta a tu imagen QR
+              style={{ width: 200, height: 200 }}
+              resizeMode="contain"
+            />
           </View>
           
           <Text className="text-lg font-semibold text-gray-800 mb-2">
