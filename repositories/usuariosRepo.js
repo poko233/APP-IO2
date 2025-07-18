@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../config/firebaseConfig.js";
-import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection,addDoc, serverTimestamp  } from "firebase/firestore";
 
 //iniciar sesión
 export const loginUser = async (email, password) => {
@@ -64,3 +64,36 @@ export const getProductById = async (productId) => {
     throw new Error(`Error al obtener producto: ${error.message}`);
   }
 };
+
+export const createOrder = async (orderData) => {
+  try {
+    
+    const docRef = await addDoc(collection(db, 'orders'), {
+      ...orderData,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+  
+    return {
+      id: docRef.id,
+      ...orderData,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+  } catch (error) {
+    console.error('❌ ERROR AL GUARDAR PEDIDO:', error);
+    throw error;
+  }
+};
+
+export const generateOrderNumber = () => {
+  const now = new Date();
+  
+  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const year = String(now.getFullYear());
+  const formattedDate = `${day}${month}${year}`;
+  
+  const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  return `PED-${formattedDate}-${random}`;
+}

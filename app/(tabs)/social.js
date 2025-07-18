@@ -9,8 +9,8 @@ export default function SocialScreen() {
     {
       key: "instagram",
       title: "Instagram",
-      icon: <FontAwesome name="instagram" size={24} color="#E1306C" />,
-      url: "https://www.instagram.com/victortc.exe",
+      icon: <FontAwesome name="instagram" size={24} color="#black" />,
+      url: "https://www.instagram.com/1deli.frut1",
       posts: [
         {
           source:
@@ -31,7 +31,7 @@ export default function SocialScreen() {
       title: "TikTok",
       image:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/1200px-Tiktok_icon.svg.png",
-      url: "https://www.tiktok.com/",
+      url: "https://www.tiktok.com/@delifrut57",
       posts: [
         {
           source:
@@ -47,7 +47,26 @@ export default function SocialScreen() {
         },
       ],
     },
-    // ... otras redes
+    {
+      key: "facebook",
+      title: "Facebook",
+      icon: <FontAwesome name="facebook-f" size={24} color="black" />,
+      url: "https://www.facebook.com/share/1BNWEvFxFf/",
+      posts: [
+        {
+          source:
+            "https://img.freepik.com/foto-gratis/saludable-surtido-frutas-secas-pastillas-chupar_7502-8491.jpg?semt=ais_hybrid&w=740",
+        },
+        {
+          source:
+            "https://img.freepik.com/fotos-premium/pastilla-baya-malvavisco-frutas-sobre-fondo-claro_157947-2829.jpg",
+        },
+        {
+          source:
+            "https://img.freepik.com/fotos-premium/pastilla-frutas-diferentes-sabores-chips-frutas-o-rodajas-frutos-secos-caja-regalo_158155-2077.jpg",
+        },
+      ],
+    },
   ];
 
   return (

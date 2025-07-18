@@ -11,10 +11,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from "expo-router";
 import { getProductById } from "../../repositories/usuariosRepo";
+import { useCart } from "../../components/CartContext";
 import "../../global.css";
 
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -90,7 +92,7 @@ export default function ProductDetailScreen() {
           </Text>
           
           <Text className="text-3xl font-bold text-green-600 mb-4">
-            ${product.price}
+            Bs. {product.price}
           </Text>
 
           <View className="border-t border-gray-200 pt-4">
@@ -103,7 +105,7 @@ export default function ProductDetailScreen() {
           </View>
           
           <TouchableOpacity className="bg-black rounded-lg py-4 mt-6">
-            <Text className="text-white text-center font-semibold text-lg">
+            <Text className="text-white text-center font-semibold text-lg" onPress={() => addToCart(product)}>
               Agregar al carrito
             </Text>
           </TouchableOpacity>
