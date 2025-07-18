@@ -1,6 +1,6 @@
 // components/ConfirmationDialog.js
 import React from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Linking  } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ConfirmationDialog({ 
@@ -12,7 +12,8 @@ export default function ConfirmationDialog({
   confirmText = "Confirmar",
   cancelText = "Cancelar",
   type = "warning", // warning, danger, success
-  showCancelButton = true // Nueva prop con valor por defecto
+  showCancelButton = true,
+  confirmAction = null
 }) {
   const getIconColor = () => {
     switch (type) {
@@ -27,6 +28,24 @@ export default function ConfirmationDialog({
       case 'danger': return 'trash-outline';
       case 'success': return 'checkmark-circle-outline';
       default: return 'warning-outline';
+    }
+  };
+  const handleConfirm = async () => {
+    if (typeof confirmAction === 'string') {
+      // Si es una URL, abrir en el navegador
+      try {
+        const canOpen = await Linking.canOpenURL(confirmAction);
+        if (canOpen) {
+          await Linking.openURL(confirmAction);
+        }
+      } catch (error) {
+        console.error('Error al abrir URL:', error);
+      }
+    }
+    
+    // Ejecutar onConfirm si existe
+    if (onConfirm) {
+      onConfirm();
     }
   };
 
@@ -64,7 +83,7 @@ export default function ConfirmationDialog({
             )}
             
             <TouchableOpacity 
-              onPress={onConfirm}
+              onPress={handleConfirm}
               className={`py-3 rounded-2xl items-center ${
                 showCancelButton ? 'flex-1' : 'flex-1'
               } ${type === 'danger' ? 'bg-red-600' : 'bg-indigo-600'}`}

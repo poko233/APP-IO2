@@ -56,11 +56,12 @@ async function deleteCollection(collectionName) {
   }
 }
 
-const colName= "productos"
+const colName= "orders"
 debugGetAllOrders(colName);
 // Ejemplo de uso: orders ,productos
-
+/*
 deleteCollection(colName)
 .then(() => console.log('Colección productos vaciada'))
 .catch(console.error);
 debugGetAllOrders(colName);
+*/
