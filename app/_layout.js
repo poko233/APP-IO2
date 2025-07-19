@@ -1,6 +1,7 @@
 import { useFonts } from "expo-font";
 import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { CartProvider, useCart } from "../components/CartContext";
+import { AuthProvider } from "../contexts/AuthContext"; // Importar AuthProvider
 
 import { Stack, useRouter, useSegments } from "expo-router";
 import { Pressable, View, Text } from "react-native";
@@ -88,6 +89,7 @@ function LayoutContent() {
     </Stack>
   );
 }
+
 export default function Layout() {
   const [fontsLoaded] = useFonts({
     ...FontAwesome.font,
@@ -99,8 +101,10 @@ export default function Layout() {
   }
 
   return (
-    <CartProvider>
-      <LayoutContent />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <LayoutContent />
+      </CartProvider>
+    </AuthProvider>
   );
 }

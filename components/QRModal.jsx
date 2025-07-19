@@ -38,7 +38,7 @@ export default function QRModal({
           
           <View className="bg-white p-1 rounded-2xl mb-6 border border-gray-200">
             <Image
-              source={require('../assets/qr.png')} // Ruta a tu imagen QR
+              source={{ uri: "https://i.ibb.co/6RGfSB8R/qr.jpg" }}
               style={{ width: 200, height: 200 }}
               resizeMode="contain"
             />

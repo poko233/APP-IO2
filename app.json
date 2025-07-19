@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.poko233.AppIO2"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -29,6 +30,12 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "app-io2"
+    "scheme": "app-io2",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "cbae1cd0-20d0-4fff-b845-15c62ae70422"
+      }
+    }
   }
 }

@@ -59,6 +59,7 @@ export default function CartScreen() {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    fetchUserData();
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 800,
