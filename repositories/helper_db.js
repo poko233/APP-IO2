@@ -56,7 +56,60 @@ async function deleteCollection(collectionName) {
   }
 }
 
+async function deleteAnonymousUsersFlexible(collectionName) {
+  try {
+    console.log(`🗑️ Buscando usuarios anónimos en la colección "${collectionName}"...`);
+
+    const colRef = collection(db, collectionName);
+    const snapshot = await getDocs(colRef);
+
+    if (snapshot.empty) {
+      console.log('✅ La colección está vacía.');
+      return;
+    }
+
+    const batch = writeBatch(db);
+    let deletedCount = 0;
+
+    snapshot.docs.forEach(docSnap => {
+      const data = docSnap.data();
+      const userName = data.userName || '';
+      
+      // Condiciones para considerar un usuario como "anónimo"
+      const isAnonymous = 
+        userName === "Usuario Anónimo" ||
+        userName === "Usuario Anonimo" ||
+        userName === "" ||
+        userName === "No disponible" ||
+        userName === null ||
+        userName === undefined ||
+        userName.toLowerCase().includes("anónimo") ||
+        userName.toLowerCase().includes("anonimo");
+
+      if (isAnonymous) {
+        batch.delete(docSnap.ref);
+        console.log(`🎯 Marcando para eliminar: ${docSnap.id} - "${userName}"`);
+        deletedCount++;
+      }
+    });
+
+    if (deletedCount === 0) {
+      console.log('✅ No se encontraron usuarios anónimos para eliminar.');
+      return 0;
+    }
+
+    await batch.commit();
+    console.log(`✅ Se eliminaron ${deletedCount} usuarios anónimos de "${collectionName}".`);
+    
+    return deletedCount;
+  } catch (error) {
+    console.error(`❌ Error al eliminar usuarios anónimos de "${collectionName}":`, error);
+    throw error;
+  }
+}
 const colName= "orders"
+debugGetAllOrders(colName);
+deleteAnonymousUsersFlexible(colName)
 debugGetAllOrders(colName);
 // Ejemplo de uso: orders ,productos
 /*

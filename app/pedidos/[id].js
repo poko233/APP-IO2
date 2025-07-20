@@ -277,27 +277,43 @@ const DetallePedido = () => {
             <Text className="text-lg font-semibold text-gray-900 ml-2">Detalles del Pedido</Text>
           </View>
 
-          <View className="flex-row justify-between items-center mb-3">
-            <View>
-              <Text className="text-xs text-gray-500 mb-1">CANTIDAD DE PRODUCTOS</Text>
-              <Text className="text-base font-medium text-gray-900">
-                {pedido.totalQuantity || 0} productos
-              </Text>
+          <View className="space-y-3">
+            <View className="flex-row justify-between items-center">
+              <View>
+                <Text className="text-xs text-gray-500 mb-1">CANTIDAD DE PRODUCTOS</Text>
+                <Text className="text-base font-medium text-gray-900">
+                  {pedido.totalQuantity || 0} productos
+                </Text>
+              </View>
+              
+              <View className="items-end">
+                <Text className="text-xs text-gray-500 mb-1">MÉTODO DE PAGO</Text>
+                <Text className="text-base font-medium text-gray-900">
+                  {pedido.paymentMethod === 'physical' ? 'Efectivo' : 
+                   pedido.paymentMethod === 'qr' ? 'QR' : 
+                   pedido.paymentMethod || 'N/A'}
+                </Text>
+              </View>
             </View>
-            
-            <View className="items-end">
-              <Text className="text-xs text-gray-500 mb-1">MÉTODO DE PAGO</Text>
-              <Text className="text-base font-medium text-gray-900">
-                {pedido.paymentMethod === 'physical' ? 'Efectivo' : 
-                 pedido.paymentMethod === 'qr' ? 'QR' : 
-                 pedido.paymentMethod || 'N/A'}
-              </Text>
-            </View>
+
+            {/* Mostrar ID de transacción si el pago es por QR */}
+            {pedido.paymentMethod === 'qr' && pedido.transactionId && (
+              <View className="bg-black-50 p-3 rounded-lg border border-black-200">
+                <View className="flex-row items-center mb-2">
+                  <Feather name="credit-card" size={16} color="#000" />
+                  <Text className="text-xs text-black-700 ml-2 font-medium">TRANSACCIÓN QR</Text>
+                </View>
+                <Text className="text-xs text-black-600 mb-1">ID DE TRANSACCIÓN</Text>
+                <Text className="text-base font-mono text-black-900 bg-white px-2 py-1 rounded border">
+                  {pedido.transactionId}
+                </Text>
+              </View>
+            )}
           </View>
 
           {/* Lista de productos */}
           {pedido.items && pedido.items.length > 0 && (
-            <View className="border-t border-gray-200 pt-4">
+            <View className="border-t border-gray-200 pt-4 mt-4">
               <Text className="text-sm font-medium text-gray-700 mb-3">Productos:</Text>
               {pedido.items.map((item, index) => (
                 <View key={index} className="flex-row justify-between items-center py-2 border-b border-gray-100 last:border-b-0">

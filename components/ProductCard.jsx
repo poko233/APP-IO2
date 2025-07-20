@@ -1,14 +1,25 @@
 import { Link } from "expo-router";
-import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
+import { View, Text, Image, TouchableOpacity, Pressable, ToastAndroid, Platform } from "react-native";
 import { useCart } from "../components/CartContext";
+
 const ProductCard = ({ products }) => {
   const { addToCart } = useCart();
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Producto añadido al carrito', ToastAndroid.SHORT);
+    } else {
+      alert('Producto añadido al carrito');
+    }
+  };
+
   return (
     <View className="flex flex-row flex-wrap justify-center">
       {products.map((product) => (
         <View className="w-full max-w-xs m-2 bg-white rounded-lg shadow-md overflow-hidden" key={product.id}>
-          <Link  href={`/product/${product.id}`} asChild>
-            <Pressable >
+          <Link href={`/product/${product.id}`} asChild>
+            <Pressable>
               <View className="w-full h-48 bg-gray-100">
                 <Image
                   source={{
@@ -36,7 +47,7 @@ const ProductCard = ({ products }) => {
           <View className="w-full max-w-xs px-4 -mt-2 mb-4">
             <TouchableOpacity
               className="px-4 py-2 bg-black rounded-md"
-              onPress={() => addToCart(product)}
+              onPress={() => handleAddToCart(product)}
             >
               <Text className="text-white font-medium">Añadir al carrito</Text>
             </TouchableOpacity>

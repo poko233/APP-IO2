@@ -1,14 +1,16 @@
 // app/product/[id].js
 import React, { useEffect, useState } from "react";
-import { 
-  View, 
-  Text, 
-  ScrollView, 
-  ActivityIndicator, 
-  Image, 
-  TouchableOpacity 
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  Image,
+  TouchableOpacity,
+  ToastAndroid,
+  Platform,
 } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import { getProductById } from "../../repositories/usuariosRepo";
 import { useCart } from "../../components/CartContext";
@@ -43,6 +45,14 @@ export default function ProductDetailScreen() {
     fetchProduct();
   }, [id]);
 
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    if (Platform.OS === "android") {
+      ToastAndroid.show("Producto añadido al carrito", ToastAndroid.SHORT);
+    } else {
+      alert("Producto añadido al carrito");
+    }
+  };
   if (loading) {
     return (
       <SafeAreaView className="flex-1 justify-center items-center bg-gray-50">
@@ -56,7 +66,7 @@ export default function ProductDetailScreen() {
     return (
       <SafeAreaView className="flex-1 justify-center items-center bg-gray-50 p-4">
         <Text className="text-red-500 text-center text-lg">{error}</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           className="mt-4 bg-blue-500 px-6 py-3 rounded-lg"
           onPress={() => {
             setError(null);
@@ -79,7 +89,7 @@ export default function ProductDetailScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={['bottom']}>
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
       <ScrollView className="flex-1">
         <Image
           source={{ uri: product.image }}
@@ -90,7 +100,7 @@ export default function ProductDetailScreen() {
           <Text className="text-2xl font-bold text-gray-800 mb-2">
             {product.name}
           </Text>
-          
+
           <Text className="text-3xl font-bold text-green-600 mb-4">
             Bs. {product.price}
           </Text>
@@ -103,9 +113,12 @@ export default function ProductDetailScreen() {
               {product.description}
             </Text>
           </View>
-          
+
           <TouchableOpacity className="bg-black rounded-lg py-4 mt-6">
-            <Text className="text-white text-center font-semibold text-lg" onPress={() => addToCart(product)}>
+            <Text
+              className="text-white text-center font-semibold text-lg"
+              onPress={() => handleAddToCart(product)}
+            >
               Agregar al carrito
             </Text>
           </TouchableOpacity>

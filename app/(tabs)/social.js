@@ -14,15 +14,15 @@ export default function SocialScreen() {
       posts: [
         {
           source:
-            "https://img.freepik.com/foto-gratis/saludable-surtido-frutas-secas-pastillas-chupar_7502-8491.jpg?semt=ais_hybrid&w=740",
+            "https://i.ibb.co/cKNFkvQJ/IG.png",
         },
         {
           source:
-            "https://img.freepik.com/fotos-premium/pastilla-baya-malvavisco-frutas-sobre-fondo-claro_157947-2829.jpg",
+            "https://i.ibb.co/21CN864Y/image.png",
         },
         {
           source:
-            "https://img.freepik.com/fotos-premium/pastilla-frutas-diferentes-sabores-chips-frutas-o-rodajas-frutos-secos-caja-regalo_158155-2077.jpg",
+            "https://i.ibb.co/HpGpDWvg/image.png",
         },
       ],
     },
@@ -35,15 +35,15 @@ export default function SocialScreen() {
       posts: [
         {
           source:
-            "https://img.freepik.com/foto-gratis/saludable-surtido-frutas-secas-pastillas-chupar_7502-8491.jpg?semt=ais_hybrid&w=740",
+            "https://i.ibb.co/XrxJQGjL/TK.png",
         },
         {
           source:
-            "https://img.freepik.com/fotos-premium/pastilla-baya-malvavisco-frutas-sobre-fondo-claro_157947-2829.jpg",
+            "https://i.ibb.co/Rk16hjZ5/image.png",
         },
         {
           source:
-            "https://img.freepik.com/fotos-premium/pastilla-frutas-diferentes-sabores-chips-frutas-o-rodajas-frutos-secos-caja-regalo_158155-2077.jpg",
+            "https://i.ibb.co/x8wKS78W/image.png",
         },
       ],
     },
@@ -55,11 +55,11 @@ export default function SocialScreen() {
       posts: [
         {
           source:
-            "https://img.freepik.com/foto-gratis/saludable-surtido-frutas-secas-pastillas-chupar_7502-8491.jpg?semt=ais_hybrid&w=740",
+            "https://i.ibb.co/9mGfVdkn/FB.png",
         },
         {
           source:
-            "https://img.freepik.com/fotos-premium/pastilla-baya-malvavisco-frutas-sobre-fondo-claro_157947-2829.jpg",
+            "https://i.ibb.co/HpGpDWvg/image.png",
         },
         {
           source:
