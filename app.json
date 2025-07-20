@@ -21,7 +21,24 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.poko233.AppIO2"
+      "package": "com.poko233.AppIO2",
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.QUERY_ALL_PACKAGES"
+      ],
+      "queries": [
+        {
+          "package": "com.whatsapp"
+        },
+        {
+          "intent": {
+            "action": "android.intent.action.SENDTO",
+            "data": {
+              "scheme": "whatsapp"
+            }
+          }
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -31,6 +48,12 @@
       "expo-router"
     ],
     "scheme": "app-io2",
+    "linking": {
+      "prefixes": [
+        "tu-app://",
+        "https://tu-app.com"
+      ]
+    },
     "extra": {
       "router": {},
       "eas": {

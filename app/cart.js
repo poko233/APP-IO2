@@ -269,41 +269,39 @@ export default function CartScreen() {
     }
   };
 
-  // Reemplaza tu función handleOrderSuccess con esta:
   const handleOrderSuccess = async () => {
-    // PRIMERO generar la URL con los datos disponibles
     let whatsappUrl = "";
     if (orderData) {
       whatsappUrl = getWhatsappUrl(transactionId);
     }
 
-    // LUEGO limpiar los estados
+    // Limpiar estados
     setShowOrderSuccessConfirm(false);
     setOrderData(null);
     setTransactionId("");
     clearCart();
 
-    // FINALMENTE abrir WhatsApp si hay URL
     if (whatsappUrl) {
       try {
+        // Usar directamente el enlace de WhatsApp sin modificaciones
         const supported = await Linking.canOpenURL(whatsappUrl);
+
         if (supported) {
           await Linking.openURL(whatsappUrl);
         } else {
-          // Fallback: abrir en navegador web
-          const webUrl = whatsappUrl.replace(
-            "https://wa.me/",
-            "https://web.whatsapp.com/send?phone="
+          // Fallback: mostrar el número para contacto manual
+          Alert.alert(
+            "Pedido Completado",
+            `Tu pedido ha sido procesado. Contacta al +591 60381149 para coordinar la entrega.`,
+            [{ text: "Entendido" }]
           );
-          await Linking.openURL(webUrl);
         }
       } catch (error) {
-        console.error("Error al abrir WhatsApp:", error);
-        // Mostrar alerta si falla
+        console.error("Error:", error);
         Alert.alert(
-          "Error",
-          "No se pudo abrir WhatsApp. Contacta al +59160381149",
-          [{ text: "OK" }]
+          "Pedido Completado",
+          "Tu pedido ha sido procesado. Contacta al +591 60381149 para coordinar la entrega.",
+          [{ text: "Entendido" }]
         );
       }
     }
@@ -328,14 +326,14 @@ export default function CartScreen() {
     if (!orderData) return "";
 
     const cliente = {
-      nombre: userData?.nombre,
-      celular: userData?.telefono,
-      direccion: userData?.direccion,
+      nombre: userData?.nombre || "Sin nombre",
+      celular: userData?.telefono || "Sin teléfono",
+      direccion: userData?.direccion || "Sin dirección",
     };
-    // Verifica si hay transactionId en orderData o en el parámetro
+
     const finalTransactionId = orderData?.transactionId || transactionId;
-    const message = encodeURIComponent(
-      `*📦 Pedido #${orderData.orderNumber}*
+
+    const message = `*📦 Pedido #${orderData.orderNumber}*
 👤 *Cliente:* ${cliente.nombre}
 📱 Celular: ${cliente.celular}
 🏠 Dirección: ${cliente.direccion}
@@ -350,13 +348,16 @@ ${orderData.items
 
 💰 Total a pagar: Bs. ${orderData.totalAmount.toFixed(2)}
 💳 *Método de pago:* ${orderData.paymentMethod === "qr" ? "QR Bancario" : "Contra entrega"}${
-        orderData.paymentMethod === "qr" && finalTransactionId
-          ? `\n🔢 *ID de Transacción:* ${finalTransactionId}`
-          : ""
-      }`
-    );
+      orderData.paymentMethod === "qr" && finalTransactionId
+        ? `\n🔢 *ID de Transacción:* ${finalTransactionId}`
+        : ""
+    }`;
 
-    return `https://wa.me/59160381149?text=${message}`;
+    // Codificar correctamente el mensaje
+    const encodedMessage = encodeURIComponent(message);
+
+    // Usar el formato estándar de WhatsApp
+    return `https://wa.me/59160381149?text=${encodedMessage}`;
   };
 
   return (
