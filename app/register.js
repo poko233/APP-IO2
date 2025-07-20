@@ -57,12 +57,14 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Nombre completo"
+        placeholderTextColor="#999"
         value={nombre}
         onChangeText={setNombre}
       />
       <TextInput
         style={styles.input}
         placeholder="Número de celular"
+        placeholderTextColor="#999"
         value={celular}
         onChangeText={setCelular}
         keyboardType="phone-pad"
@@ -70,6 +72,7 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Correo electrónico"
+        placeholderTextColor="#999"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -77,12 +80,14 @@ export default function RegisterScreen() {
       <TextInput
         style={styles.input}
         placeholder="Dirección"
+        placeholderTextColor="#999"
         value={direccion}
         onChangeText={setDireccion}
       />
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
+        placeholderTextColor="#999"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -104,6 +109,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     marginBottom: 15,
+    color: "#000",  // ← SOLO ESTE CAMBIO: texto negro
   },
   button: {
     backgroundColor: "#007AFF",

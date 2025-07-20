@@ -8,6 +8,8 @@ import {
   Dimensions,
   SafeAreaView,
   StatusBar,
+  Linking,
+  Alert,
 } from "react-native";
 import { useCart } from "../components/CartContext";
 import { Ionicons } from "@expo/vector-icons";
@@ -267,11 +269,44 @@ export default function CartScreen() {
     }
   };
 
-  const handleOrderSuccess = () => {
+  // Reemplaza tu función handleOrderSuccess con esta:
+  const handleOrderSuccess = async () => {
+    // PRIMERO generar la URL con los datos disponibles
+    let whatsappUrl = "";
+    if (orderData) {
+      whatsappUrl = getWhatsappUrl(transactionId);
+    }
+
+    // LUEGO limpiar los estados
     setShowOrderSuccessConfirm(false);
     setOrderData(null);
     setTransactionId("");
     clearCart();
+
+    // FINALMENTE abrir WhatsApp si hay URL
+    if (whatsappUrl) {
+      try {
+        const supported = await Linking.canOpenURL(whatsappUrl);
+        if (supported) {
+          await Linking.openURL(whatsappUrl);
+        } else {
+          // Fallback: abrir en navegador web
+          const webUrl = whatsappUrl.replace(
+            "https://wa.me/",
+            "https://web.whatsapp.com/send?phone="
+          );
+          await Linking.openURL(webUrl);
+        }
+      } catch (error) {
+        console.error("Error al abrir WhatsApp:", error);
+        // Mostrar alerta si falla
+        Alert.alert(
+          "Error",
+          "No se pudo abrir WhatsApp. Contacta al +59160381149",
+          [{ text: "OK" }]
+        );
+      }
+    }
   };
 
   const closeModals = () => {
@@ -439,15 +474,19 @@ ${orderData.items
       <ConfirmationDialog
         visible={showOrderSuccessConfirm}
         title="¡Pedido Completado!"
-        message={`Tu pedido #${orderData?.orderNumber} ha sido procesado exitosamente. Envianos un mensaje para confirmar tu pedido en el siguiente boton:`}
+        message={`Tu pedido #${orderData?.orderNumber} ha sido procesado exitosamente. Presiona continuar para enviar el pedido por WhatsApp.`}
         onConfirm={handleOrderSuccess}
-        onCancel={handleOrderSuccess}
-        confirmText="Continuar"
+        onCancel={() => {
+          setShowOrderSuccessConfirm(false);
+          setOrderData(null);
+          setTransactionId("");
+          clearCart();
+        }}
+        confirmText="Enviar por WhatsApp"
+        cancelText="Cerrar"
         type="success"
-        showCancelButton={false}
-        confirmAction={getWhatsappUrl(transactionId)}
+        showCancelButton={false} // Cambiar a false para ocultar opción de cerrar
       />
-
       {/* Diálogo de error */}
       <ConfirmationDialog
         visible={showErrorConfirm}
