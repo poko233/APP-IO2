@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "App-IO2",
-    "slug": "App-IO2",
+    "name": "Deli-Frut",
+    "slug": "Deli-Frut",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -57,7 +57,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "cbae1cd0-20d0-4fff-b845-15c62ae70422"
+        "projectId": "8164c165-ce04-4258-8206-a36f36a8db05"
       }
     }
   }
